@@ -1,0 +1,58 @@
+## Run time data
+*.db
+*.ext
+# Exclude Excel temporary files generated while you open them locally
+~$*.xlsx
+~$*.xls
+
+## Build outputs (bin and obj folders)
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Re]leasePublic/
+x64/
+x86/
+[Bb]in/
+[Oo]bj/
+[Log]s/
+
+## Visual Studio tooling & user-specific settings
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## ASP.NET Core secrets and local environments
+appsettings.Development.json
+usr/share/secrets/
+secrets.json
+.microsoft.dotnet.secretmanager/
+
+## Rider / JetBrains IDE
+.idea/
+*.sln.iml
+
+## Visual Studio Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+## Node.js / Front-end assets (if using npm/bundling in MVC)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+## User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## OS-generated files
+.DS_Store
+Thumbs.db
