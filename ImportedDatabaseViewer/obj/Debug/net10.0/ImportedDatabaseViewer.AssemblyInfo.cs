@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ImportedDatabaseViewer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+12925644bf942d498ae1835c7f86022ca111b42d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e3ae1e0761abe6f7067858ac18ae527b6c11c38d")]
 [assembly: System.Reflection.AssemblyProductAttribute("ImportedDatabaseViewer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ImportedDatabaseViewer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

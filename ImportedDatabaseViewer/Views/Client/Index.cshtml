@@ -1,0 +1,37 @@
+﻿@model IEnumerable<ImportedDatabaseViewer.Models.Client>
+
+<table>
+
+    <tr>
+        <th>CardCode</th>
+        <th>LastName</th>
+        <th>FirstName</th>
+        <th>SurName</th>
+        <th>PhoneMobile</th>
+        <th>Email</th>
+        <th>GenderId</th>
+        <th>Birthday</th>
+        <th>City</th>
+        <th>Pincode</th>
+        <th>Bonus</th>
+        <th>Turnover</th>
+    </tr>
+
+    @foreach (Client client in Model)
+    {
+        <tr>
+            <th>@client.CardCode</th>
+            <th>@client.LastName</th>
+            <th>@client.FirstName</th>
+            <th>@client.SurName</th>
+            <th>@client.PhoneMobile</th>
+            <th>@client.Email</th>
+            <th>@client.GenderId</th>
+            <th>@client.Birthday</th>
+            <th>@client.City</th>
+            <th>@client.Pincode</th>
+            <th>@client.Bonus</th>
+            <th>@client.Turnover</th>
+        </tr>
+    }
+</table>

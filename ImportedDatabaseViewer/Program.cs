@@ -1,7 +1,10 @@
+using ImportedDatabaseViewer.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<ClientRepository>();
 
 var app = builder.Build();
 
@@ -16,7 +19,6 @@ if (!app.Environment.IsDevelopment())
 app.UseRouting();
 
 app.UseAuthorization();
-
 app.MapStaticAssets();
 app.MapControllerRoute(
     name: "default",

@@ -1,12 +1,37 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ImportedDatabaseViewer.Models;
+using ImportedDatabaseViewer.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ImportedDatabaseViewer.Controllers
 {
     public class ClientController : Controller
     {
-        public IActionResult Index()
+        private readonly ClientRepository _repo;
+
+        public ClientController(ClientRepository repo)
         {
-            return View();
+            _repo = repo;
+        }
+
+        public async Task<IActionResult> Index(int page = 1)
+        {
+            var clients = await _repo.GetPagedAsync(page);
+            return View(clients);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Client client)
+        {
+            if(!ModelState.IsValid)
+            {
+                TempData["Error"] = "Неверные данные!";
+                return RedirectToAction(nameof(Index));
+            }
+            await _repo.UpdateAsync(client);
+
+            TempData["Message"] = $"Успешно обновлен клиент #{client.CardCode}!";
+            return RedirectToAction(nameof(Index));
         }
     }
 }
