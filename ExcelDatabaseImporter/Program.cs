@@ -54,7 +54,7 @@ using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read))
 			string existsQ = "SELECT CardCode from dbo.Clients WHERE CardCode = @CardCode";
 			using (SqlCommand existsC = new SqlCommand(existsQ, connection))
 			{
-                existsC.Parameters.Add("@CardCode", SqlDbType.NVarChar, 255).Value = row["CardCode"].ToString() ?? string.Empty;
+                existsC.Parameters.Add("@CardCode", SqlDbType.VarChar, 255).Value = row["CardCode"].ToString() ?? string.Empty;
 				object? found = existsC.ExecuteScalar();
 
 				if(found == null)
@@ -80,14 +80,14 @@ using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read))
                         insertC.Parameters.Add("@Bonus", SqlDbType.Int).Value = row["Bonus"] ?? null;
 						insertC.Parameters.Add("@Turnover", SqlDbType.Int).Value = row["Turnover"] ?? null;
 
-						insertC.ExecuteScalar();
+						insertC.ExecuteNonQuery();
 						Console.WriteLine("Вставлен CardCode #" + row["CardCode"].ToString());
                     }
 				}
             }
 
-			Console.WriteLine("Готово! Нажмите любую кнопку для выхода.");
-			Console.ReadLine();
         }
+		Console.WriteLine("Готово! Нажмите любую кнопку для выхода.");
+		Console.ReadLine();
 	}
 }
