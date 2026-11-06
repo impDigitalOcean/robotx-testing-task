@@ -50,10 +50,10 @@ dotnet run --project ImportedDatabaseViewer
 - Валидация через DataAnnotations + `ModelState.IsValid`
 
 ### Строка подключения
-`appsettings.json` → `ConnectionStrings:DefaultConnection` в каждом проекте.
+`appsettings.json` - `ConnectionStrings:DefaultConnection` в каждом проекте.
 
 ### Известные ограничения
-- `OFFSET` деградирует на глубоких страницах (для 30k записей не критично; в проде — keyset pagination)
+- `OFFSET` деградирует на глубоких страницах (для 30k записей не критично; в проде - keyset pagination)
 - Нет поиска и сортировки по колонкам
 - Секреты в `appsettings.json` (для тестового допустимо)
 - Строка подключения для импортёра вводится интерактивно - для тестового задания это удобнее, чем appsettings.json (можно указать произвольную БД без правки файлов). В проде - общий конфиг или переменные окружения.
