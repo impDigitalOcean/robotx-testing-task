@@ -1,6 +1,6 @@
-﻿@model IEnumerable<ImportedDatabaseViewer.Models.Client>
+﻿@model ImportedDatabaseViewer.Services.ClientRepository.PagedData
 
-<table>
+<table class="table">
 
     <tr>
         <th>CardCode</th>
@@ -15,9 +15,10 @@
         <th>Pincode</th>
         <th>Bonus</th>
         <th>Turnover</th>
+        <th>Действия</th>
     </tr>
 
-    @foreach (Client client in Model)
+    @foreach (Client client in Model.clients)
     {
         <tr>
             <th>@client.CardCode</th>
@@ -32,6 +33,18 @@
             <th>@client.Pincode</th>
             <th>@client.Bonus</th>
             <th>@client.Turnover</th>
+            <th><a href="/client/edit?cardcode=@client.CardCode">Редактировать</a></th>
         </tr>
     }
 </table>
+<div style="margin-bottom: 10px;"></div>
+<p>Всего: @Model.total записей</p>
+@if(Model.page>1)
+{
+    <a href="/client?page=@(Model.page-1)">Предыдущая страница</a>
+}
+
+@if (Model.total / 20 > Model.page)
+{
+    <a href="/client?page=@(Model.page+1)">Следующая страница</a>
+}

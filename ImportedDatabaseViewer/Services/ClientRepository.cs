@@ -9,9 +9,9 @@ namespace ImportedDatabaseViewer.Services
         private readonly string _connectionString;
         public struct PagedData
         {
-            List<Client> clients;
-            int total;
-            int page;
+            public List<Client> clients;
+            public int total;
+            public int page;
 
             public PagedData(List<Client> clients, int total, int page)
             {
@@ -46,11 +46,32 @@ namespace ImportedDatabaseViewer.Services
                 clients.Add(MapClient(reader));
             }
 
+            await reader.CloseAsync();
+
 
             var countR = await countC.ExecuteScalarAsync();
             int count = countR != null ? Convert.ToInt32(countR) : 0;
 
             return new PagedData(clients, count, page);
+        }
+
+        public async Task<Client?> GetClientAsync(int cardcode)
+        {
+            await using var connection = new SqlConnection(_connectionString);
+            await using var cmd = new SqlCommand(@"SELECT CardCode, LastName, FirstName, SurName, PhoneMobile, Email,
+            GenderId, Birthday, City, Pincode, Bonus, Turnover FROM dbo.Clients WHERE CardCode = @CardCode ORDER BY CardCode", connection);
+
+            cmd.Parameters.Add("@CardCode", SqlDbType.Int).Value = cardcode;
+
+            await connection.OpenAsync();
+            await using var reader = await cmd.ExecuteReaderAsync(CommandBehavior.SingleRow);
+
+            while (await reader.ReadAsync())
+            {
+                return MapClient(reader);
+            }
+
+            return null;
         }
 
         public async Task UpdateAsync(Client client)

@@ -19,9 +19,15 @@ namespace ImportedDatabaseViewer.Controllers
             return View(clients);
         }
 
+        public async Task<IActionResult> Edit(int cardcode)
+        {
+            var client = await _repo.GetClientAsync(cardcode);
+            return View(client);
+        }
+
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Client client)
+        public async Task<IActionResult> Update(Client client)
         {
             if(!ModelState.IsValid)
             {

@@ -1,0 +1,44 @@
+﻿@model ImportedDatabaseViewer.Models.Client
+
+@if (Model is not null)
+{
+    <a href="/client">&laquo; Назад</a>
+    <form method="post" action="/client/update">
+        <label asp-for="CardCode"></label>
+        <input class="form-control" type="number" placeholder="CardCode" asp-for="CardCode" />
+
+        <label asp-for="LastName"></label>
+        <input class="form-control" type="text" placeholder="LastName" asp-for="LastName" />
+
+        <label asp-for="FirstName"></label>
+        <input class="form-control" type="text" placeholder="FirstName" asp-for="FirstName" />
+
+        <label asp-for="SurName"></label>
+        <input class="form-control" type="text" placeholder="SurName" asp-for="SurName" />
+
+        <label asp-for="PhoneMobile"></label>
+        <input class="form-control" type="text" placeholder="PhoneMobile" asp-for="PhoneMobile" />
+
+        <label asp-for="Email"></label>
+        <input class="form-control" type="email" placeholder="Email" asp-for="Email" />
+
+        <label asp-for="GenderId"></label>
+        <input class="form-control" type="text" placeholder="GenderId" asp-for="GenderId" />
+
+        <label asp-for="Birthday"></label>
+        <input class="form-control" type="date" placeholder="Birthday" asp-for="Birthday" />
+
+        <label asp-for="City"></label>
+        <input class="form-control" type="text" placeholder="City" asp-for="City" />
+
+        <label asp-for="Pincode"></label>
+        <input class="form-control" type="number" placeholder="Pincode" asp-for="Pincode" />
+
+        <label asp-for="Bonus"></label>
+        <input class="form-control" type="number" placeholder="Bonus" asp-for="Bonus" />
+
+        <label asp-for="Turnover"></label>
+        <input class="form-control" type="number" placeholder="Turnover" asp-for="Turnover" />
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+}
