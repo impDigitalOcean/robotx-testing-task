@@ -32,12 +32,12 @@ namespace ImportedDatabaseViewer.Controllers
             if(!ModelState.IsValid)
             {
                 TempData["Error"] = "Неверные данные!";
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Edit), new { cardcode = client.CardCode });
             }
             await _repo.UpdateAsync(client);
 
             TempData["Message"] = $"Успешно обновлен клиент #{client.CardCode}!";
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Edit), new { cardcode = client.CardCode });
         }
     }
 }

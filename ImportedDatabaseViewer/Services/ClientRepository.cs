@@ -91,7 +91,7 @@ namespace ImportedDatabaseViewer.Services
             cmd.Parameters.Add("@SurName", SqlDbType.NVarChar, 255).Value = client.SurName ?? (object)DBNull.Value;
             cmd.Parameters.Add("@PhoneMobile", SqlDbType.NVarChar, 255).Value = client.PhoneMobile;
             cmd.Parameters.Add("@Email", SqlDbType.NVarChar, 300).Value = client.Email ?? (object)DBNull.Value;
-            cmd.Parameters.Add("@GenderId", SqlDbType.NVarChar, 10).Value = client.GenderId;
+            cmd.Parameters.Add("@GenderId", SqlDbType.NVarChar, 10).Value = client.GenderId ?? (object)DBNull.Value;
             cmd.Parameters.Add("@Birthday", SqlDbType.Date).Value = client.Birthday;
             cmd.Parameters.Add("@City", SqlDbType.NVarChar, 255).Value = client.City ?? (object)DBNull.Value;
             cmd.Parameters.Add("@Pincode", SqlDbType.Int).Value = client.Pincode ?? (object)DBNull.Value;
@@ -112,7 +112,7 @@ namespace ImportedDatabaseViewer.Services
                 SurName= reader.IsDBNull(3) ? null : reader.GetString(3),
                 PhoneMobile=reader.GetString(4),
                 Email= reader.IsDBNull(5) ? null : reader.GetString(5),
-                GenderId=reader.GetString(6),
+                GenderId=reader.IsDBNull(6) ? null : reader.GetString(6),
                 Birthday=reader.GetDateTime(7),
                 City=reader.IsDBNull(8) ? null : reader.GetString(8),
                 Pincode=reader.IsDBNull(9) ? null : reader.GetInt32(9),

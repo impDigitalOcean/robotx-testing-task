@@ -3,9 +3,20 @@
 @if (Model is not null)
 {
     <a href="/client">&laquo; Назад</a>
-    <form method="post" action="/client/update">
-        <label asp-for="CardCode"></label>
-        <input class="form-control" type="number" placeholder="CardCode" asp-for="CardCode" />
+    
+    @if (TempData.ContainsKey("Error"))
+    {
+        <p class="text-danger">@TempData["Error"]</p>
+    }
+    @if(TempData.ContainsKey("Message"))
+    {
+        <p class="text-success">@TempData["Message"]</p>
+    }
+
+    <form method="post" asp-action="Update">
+        @Html.AntiForgeryToken()
+
+        <input class="form-control" type="hidden" placeholder="CardCode" asp-for="CardCode" />
 
         <label asp-for="LastName"></label>
         <input class="form-control" type="text" placeholder="LastName" asp-for="LastName" />
