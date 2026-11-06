@@ -71,7 +71,7 @@ using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read))
                 continue;
             }
 
-            if (!DateTime.TryParse(row["Birthday"].ToString(), out DateTime birthday))
+            if (!DateTime.TryParse(row["Birthday"].ToString(), CultureInfo.GetCultureInfo("ru-RU"), out DateTime birthday))
 			{
                 skipped++;
 
