@@ -19,25 +19,27 @@ namespace ImportedDatabaseViewer.Controllers
             return View(clients);
         }
 
-        public async Task<IActionResult> Edit(int cardcode)
+        public async Task<IActionResult> Edit(int cardcode, int page = 1)
         {
             var client = await _repo.GetClientAsync(cardcode);
+
+            ViewBag.Page = page;
             return View(client);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> Update(Client client)
+        public async Task<IActionResult> Update(Client client, int page = 1)
         {
             if(!ModelState.IsValid)
             {
                 TempData["Error"] = "Неверные данные!";
-                return RedirectToAction(nameof(Edit), new { cardcode = client.CardCode });
+                return RedirectToAction(nameof(Edit), new { cardcode = client.CardCode, page = page });
             }
             await _repo.UpdateAsync(client);
 
             TempData["Message"] = $"Успешно обновлен клиент #{client.CardCode}!";
-            return RedirectToAction(nameof(Edit), new { cardcode = client.CardCode });
+            return RedirectToAction(nameof(Edit), new { cardcode = client.CardCode, page = page });
         }
     }
 }

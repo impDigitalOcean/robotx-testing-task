@@ -33,7 +33,7 @@
             <th>@client.Pincode</th>
             <th>@client.Bonus</th>
             <th>@client.Turnover</th>
-            <th><a href="/client/edit?cardcode=@client.CardCode">Редактировать</a></th>
+            <th><a asp-action="Edit" asp-route-cardcode="@client.CardCode" asp-route-page="@Model.page">Редактировать</a></th>
         </tr>
     }
 </table>

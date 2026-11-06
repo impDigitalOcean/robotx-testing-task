@@ -2,7 +2,7 @@
 
 @if (Model is not null)
 {
-    <a href="/client">&laquo; Назад</a>
+    <a asp-action="Index" asp-route-page="@ViewBag.page">&laquo; Назад</a>
     
     @if (TempData.ContainsKey("Error"))
     {
@@ -15,6 +15,7 @@
 
     <form method="post" asp-action="Update">
         @Html.AntiForgeryToken()
+        <input type="hidden" name="page" value="@ViewBag.Page" />
 
         <input class="form-control" type="hidden" placeholder="CardCode" asp-for="CardCode" />
 
