@@ -60,14 +60,20 @@ using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read))
 			VALUES (@CardCode, @LastName, @FirstName, @SurName, @PhoneMobile, @Email, @GenderId, @Birthday, @City, @Pincode, @Bonus, @Turnover)
 			""";
 
-        int inserted = 0, skipped = 0, failed = 0;
+        string updateQ = """
+                    UPDATE dbo.Clients 
+                    SET LastName = @LastName, FirstName = @FirstName, SurName = @SurName, PhoneMobile = @PhoneMobile, Email = @Email, GenderId = @GenderId, Birthday = @Birthday, City = @City, Pincode = @Pincode, Bonus = @Bonus, Turnover = @Turnover
+                    WHERE CardCode = @CardCode
+                    """;
+
+        int inserted = 0, updated = 0, skipped = 0, failed = 0;
         foreach (DataRow row in table.Rows)
         {
             if (!int.TryParse(row["CardCode"]?.ToString()?.Trim(), NumberStyles.Integer, CultureInfo.InvariantCulture, out int cardCode))
             {
                 skipped++;
 
-                Console.WriteLine("Некорректный cardcode...");
+                Console.WriteLine("Некорректный cardcode, пропускаю...");
                 continue;
             }
 
@@ -75,15 +81,37 @@ using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read))
 			{
                 skipped++;
 
-                Console.WriteLine("Некорректный Birthday...");
+                Console.WriteLine("Некорректный Birthday, пропускаю...");
                 continue;
 			}
 
             if(existing.Contains(cardCode))
             {
-                skipped++;
+                try
+                {
+                    using var updateC = new SqlCommand(updateQ, connection, trans);
+                    updateC.Parameters.Add("@CardCode", SqlDbType.Int).Value = cardCode;
+                    updateC.Parameters.Add("@LastName", SqlDbType.NVarChar, 255).Value = row["LastName"]?.ToString() ?? "";
+                    updateC.Parameters.Add("@FirstName", SqlDbType.NVarChar, 255).Value = row["FirstName"]?.ToString() ?? "";
+                    updateC.Parameters.Add("@SurName", SqlDbType.NVarChar, 255).Value = row["SurName"]?.ToString() ?? "";
+                    updateC.Parameters.Add("@PhoneMobile", SqlDbType.NVarChar, 255).Value = row["PhoneMobile"]?.ToString() ?? "";
+                    updateC.Parameters.Add("@Email", SqlDbType.NVarChar, 300).Value = row["Email"]?.ToString() ?? "";
+                    updateC.Parameters.Add("@GenderId", SqlDbType.NVarChar, 10).Value = row["GenderId"]?.ToString() ?? "";
+                    updateC.Parameters.Add("@Birthday", SqlDbType.Date).Value = birthday;
+                    updateC.Parameters.Add("@City", SqlDbType.NVarChar, 255).Value = row["City"]?.ToString() ?? "";
+                    updateC.Parameters.Add("@Pincode", SqlDbType.Int).Value = row["Pincode"] is DBNull ? DBNull.Value : Convert.ToInt32(row["Pincode"]);
+                    updateC.Parameters.Add("@Bonus", SqlDbType.Int).Value = row["Bonus"] is DBNull ? DBNull.Value : Convert.ToInt32(row["Bonus"]);
+                    updateC.Parameters.Add("@Turnover", SqlDbType.Int).Value = row["Turnover"] is DBNull ? DBNull.Value : Convert.ToInt32(row["Turnover"]);
 
-                Console.WriteLine("cardcode уже существует...");
+                    updateC.ExecuteNonQuery();
+                    updated++;
+                }
+                catch (Exception err)
+                {
+                    failed++;
+                    Console.WriteLine("Ошибка: " + err.Message);
+                }
+
                 continue;
             }
 
@@ -99,9 +127,9 @@ using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read))
                 insertC.Parameters.Add("@GenderId", SqlDbType.NVarChar, 10).Value = row["GenderId"]?.ToString() ?? "";
                 insertC.Parameters.Add("@Birthday", SqlDbType.Date).Value = birthday;
                 insertC.Parameters.Add("@City", SqlDbType.NVarChar, 255).Value = row["City"]?.ToString() ?? "";
-                insertC.Parameters.Add("@Pincode", SqlDbType.Int).Value = row["Pincode"] ?? null;
-                insertC.Parameters.Add("@Bonus", SqlDbType.Int).Value = row["Bonus"] ?? null;
-                insertC.Parameters.Add("@Turnover", SqlDbType.Int).Value = row["Turnover"] ?? null;
+                insertC.Parameters.Add("@Pincode", SqlDbType.Int).Value = row["Pincode"] is DBNull ? DBNull.Value : Convert.ToInt32(row["Pincode"]);
+                insertC.Parameters.Add("@Bonus", SqlDbType.Int).Value = row["Bonus"] is DBNull ? DBNull.Value : Convert.ToInt32(row["Bonus"]);
+                insertC.Parameters.Add("@Turnover", SqlDbType.Int).Value = row["Turnover"] is DBNull ? DBNull.Value : Convert.ToInt32(row["Turnover"]);
 
                 insertC.ExecuteNonQuery();
                 existing.Add(cardCode);
@@ -115,7 +143,7 @@ using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read))
         }
 
         trans.Commit();
-		Console.WriteLine($"Готово! Добавлено: {inserted}, ошибок: {failed}, пропущено: {skipped}. Нажмите любую кнопку для выхода.");
+		Console.WriteLine($"Готово! Добавлено: {inserted}, обновлено: {updated}, ошибок: {failed}, пропущено: {skipped}. Нажмите любую кнопку для выхода.");
 		Console.ReadLine();
 	}
 }
