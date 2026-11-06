@@ -6,7 +6,7 @@ namespace ImportedDatabaseViewer.Controllers
     {
         public IActionResult Index()
         {
-            return RedirectToAction("Index", "Clients");
+            return RedirectToAction("Index", "Client");
         }
     }
 }
